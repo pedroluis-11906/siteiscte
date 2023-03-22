@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de entrada</title>
+    <style>
+        body{font-family: sans-serif; font-size: 2em; color: darkblue}
+        input[type=submit]{ background: linear-gradient(to bottom right, #058ce0, #0119ea); color: white;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 5px;
+                            font-size: 16px;
+                            cursor: pointer;}
+
+    </style>
+</head>
+
+<p>
+
+{% if request.user.is_authenticated %}
+    <h2>O user {{ request.user.username }} está logado</h2>
+{% else %}
+    <h2>Não está logado...</h2>
+{% endif %}
+
+<h1> Lista de perguntas</h1>
+{% if latest_question_list %}
+    <ul>
+        {% for questao in latest_question_list %}
+            <li>
+                <a href="{% url 'votacao:detalhe' questao.id %}">
+                    {{ questao.questao_texto }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nao ha questoes disponiveis.</p>
+{% endif %}
+<p></p><a href="{% url 'votacao:criarquestao' %}">Criar nova questão.</a></p>
+{% if request.user.is_authenticated %}
+    <form>
+    <input type="submit" formaction="{% url 'votacao:fazlogout' %}" value="Logout">
+    </form>
+{% else %}
+    <form>
+        <input type="submit" formaction="{% url 'votacao:registar' %}" value="Registar"><br>
+        <input type="submit" formaction="{% url 'votacao:fazlogin' %}" value="Login"><br>
+    </form>
+{% endif %}
+
+{% if request.user.is_authenticated %}
+    <form>
+        <input type="submit" formaction="{% url 'votacao:verperfil' %}" value="Ver Perfil"><br>
+    </form>
+{% endif %}
+
+
+</body>
+</html>

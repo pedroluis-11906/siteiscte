@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de login</title>
+    <style>
+        body {font-family: sans-serif; font-size: 2em; text-align: center}
+    </style>
+</head>
+<body>
+    {% if msg_erro %}
+        <h2>{{ msg_erro }}</h2>
+    {% endif %}
+
+    <h1>Login:</h1>
+    <form action="{% url 'votacao:fazlogin' %}" method="POST">
+        {% csrf_token %}
+        <p>Username:</p>
+        <input type="text" name="username" autofocus>
+        <p>Password:</p>
+        <input type="password" name="password">
+        <br>
+        <input type="submit" value="Entrar">
+    </form>
+</body>
+</html>
