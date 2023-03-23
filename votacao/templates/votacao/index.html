@@ -37,7 +37,13 @@
 {% else %}
     <p>Nao ha questoes disponiveis.</p>
 {% endif %}
-<p></p><a href="{% url 'votacao:criarquestao' %}">Criar nova questão.</a></p>
+
+{% if request.user.is_superuser %}
+    <form>
+        <input type="submit" formaction="{% url 'votacao:criarquestao' %}" value="Criar Questão">
+    </form>
+{% endif %}
+
 {% if request.user.is_authenticated %}
     <form>
     <input type="submit" formaction="{% url 'votacao:fazlogout' %}" value="Logout">

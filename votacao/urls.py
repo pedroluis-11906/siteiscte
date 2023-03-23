@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+
 app_name = 'votacao'
 urlpatterns = [
     # ex: votacao
@@ -22,13 +23,15 @@ urlpatterns = [
     path('fazlogin', views.fazlogin, name='fazlogin'),
     path('fazlogout', views.fazlogout, name='fazlogout'),
 
-    #ex votacao/registar
+    # ex votacao/registar
     path('registar', views.registar, name='registar'),
 
-    #ex votacao/verperfil
+    # ex votacao/verperfil
     path('verperfil', views.verperfil, name='verperfil'),
 
-    #ex votacao/6/apagaropcao
+    # ex votacao/1/apagarquestao
+    path('<int:questao_id>/apagarquestao', views.apagarquestao, name='apagarquestao'),
+
+    # ex votacao/6/apagaropcao
     path('<int:questao_id>/apagaropcao', views.apagaropcao, name='apagaropcao'),
 ]
-

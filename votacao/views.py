@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
@@ -10,6 +10,8 @@ from django.urls import reverse
 
 
 def index(request):
+    if 'error_message' in request.session:
+        del request.session['error_message']
     latest_question_list = Questao.objects.order_by('-pub_data')[:5]
     context = {'latest_question_list': latest_question_list}
     return render(request, 'votacao/index.html', context)
@@ -17,7 +19,7 @@ def index(request):
 
 def detalhe(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
-    return render(request, 'votacao/detalhe.html', {'questao': questao})
+    return render(request, 'votacao/detalhe.html', {'questao': questao, })
 
 
 def resultados(request, questao_id):
@@ -36,13 +38,20 @@ def voto(request, questao_id):
                        'error_message': "Não escolheu uma opção",
                        })
     else:
+        try:
+            aluno = Aluno.objects.get(user=request.user)
+            if aluno.num_votos <= 5:
+                aluno.num_votos += 1
+                aluno.save()
+            else:
+                request.session['error_message'] = 'O Aluno excedeu o número de votos permitido'
+                return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao_id, )))
+        except (KeyError, Aluno.DoesNotExist):
+            pass
+
         opcao_selecionada.votos += 1
         opcao_selecionada.save()
-        # Retorne sempre HttpResponseRedirect depois de
-        # tratar os dados POST de um form
-        # pois isso impede os dados de serem tratados
-        # repetidamente se o utilizador
-        # voltar para a página web anterior.
+
     return HttpResponseRedirect(reverse('votacao:resultados', args=(questao_id,)))
 
 
@@ -118,6 +127,12 @@ def registar(request):
 def verperfil(request):
     aluno = Aluno.objects.get(user=request.user)
     return render(request, 'votacao/verperfil.html', {'aluno': aluno})
+
+
+def apagarquestao(request, questao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    questao.delete()
+    return HttpResponseRedirect(reverse('votacao:index'))
 
 
 def apagaropcao(request, questao_id):
