@@ -12,8 +12,18 @@ from django.urls import reverse
 def index(request):
     if 'error_message' in request.session:
         del request.session['error_message']
+
+    if request.user.is_authenticated:
+        try:
+            aluno = Aluno.objects.get(user=request.user)
+            request.session['num_votos'] = aluno.num_votos
+            print(request.session['num_votos'])
+        except (KeyError, Aluno.DoesNotExist):
+            pass
+
     latest_question_list = Questao.objects.order_by('-pub_data')[:5]
     context = {'latest_question_list': latest_question_list}
+
     return render(request, 'votacao/index.html', context)
 
 
@@ -40,7 +50,7 @@ def voto(request, questao_id):
     else:
         try:
             aluno = Aluno.objects.get(user=request.user)
-            if aluno.num_votos <= 5:
+            if aluno.num_votos < 5:
                 aluno.num_votos += 1
                 aluno.save()
             else:

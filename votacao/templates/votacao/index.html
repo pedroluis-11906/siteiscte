@@ -11,16 +11,32 @@
                             border-radius: 5px;
                             font-size: 16px;
                             cursor: pointer;}
+
         nav {background-color: #333; overflow: hidden}
-        nav a{float: right; color: white; text-align: center;
-            padding: 14px 16px; text-decoration: none}
-        nav a:hover {background-color: #ddd; color: black}
+        ul {list-style-type: none; margin: 0; padding: 0}
+        .navli {float: right}
+        .navli a, .navli p {display: block; color: white; text-align: center;
+                    padding: 14px 16px; text-decoration: none}
+         p {margin: 0}
+        .navli a:hover {background-color: #111}
+        nav p {float: right; display: block; color: white; text-align: center;
+                    padding: 14px 16px; text-decoration: none; margin: 0}
+
     </style>
 </head>
 
+<body>
 <nav>
-    <a href="{% url 'votacao:verperfil' %}">{{ request.user.username }}</a>
+    {% if request.session.num_votos >= 0 %}
+        <ul>
+            <li class="navli"><p>Número total de votos: {{ request.session.num_votos }}</p></li>
+            <li class="navli"><a href="{% url 'votacao:verperfil' %}">{{ request.user.username }}</a></li>
+        </ul>
+    {% else %}
+        <p>{{ request.user.username }}</p>
+    {% endif %}
 </nav>
+
 
 {% if request.user.is_authenticated %}
     <h2>O user {{ request.user.username }} está logado</h2>
