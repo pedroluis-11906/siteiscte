@@ -78,7 +78,9 @@
 
 {% if request.user.is_authenticated %}
     <form>
+    {% if request.session.num_votos >= 0 %}
         <input type="submit" formaction="{% url 'votacao:verperfil' %}" value="Ver Perfil"><br>
+    {% endif %}
     </form>
 {% endif %}
 

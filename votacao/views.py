@@ -50,11 +50,11 @@ def voto(request, questao_id):
     else:
         try:
             aluno = Aluno.objects.get(user=request.user)
-            if aluno.num_votos < 5:
+            if aluno.num_votos < 19:
                 aluno.num_votos += 1
                 aluno.save()
             else:
-                request.session['error_message'] = 'O Aluno excedeu o número de votos permitido'
+                request.session['error_message'] = 'O Aluno atingiu o número de votos permitido'
                 return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao_id, )))
         except (KeyError, Aluno.DoesNotExist):
             pass
