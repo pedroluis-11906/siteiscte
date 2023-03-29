@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.utils import timezone
@@ -157,3 +158,14 @@ def apagaropcao(request, questao_id):
     else:
         opcao_selecionada.delete()
         return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao_id,)))
+
+
+def fazerupload(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        return render(request, 'votacao/fazerupload.html', {'uploaded_file_url': uploaded_file_url})
+    return render(request, 'votacao/fazerupload.html')
+

@@ -1,31 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
-    <title>Página de entrada</title>
-    <style>
-        body{font-family: sans-serif; font-size: 2em;}
-        input[type=submit]{ background: linear-gradient(to bottom right, #058ce0, #0119ea); color: white;
-                            padding: 10px 20px;
-                            border: none;
-                            border-radius: 5px;
-                            font-size: 16px;
-                            cursor: pointer;}
-
-        nav {background-color: #333; overflow: hidden}
-        ul {list-style-type: none; margin: 0; padding: 0}
-        .navli {float: right}
-        .navli a, .navli p {display: block; color: white; text-align: center;
-                    padding: 14px 16px; text-decoration: none}
-         p {margin: 0}
-        .navli a:hover {background-color: #111}
-        nav p {float: right; display: block; color: white; text-align: center;
-                    padding: 14px 16px; text-decoration: none; margin: 0}
-
-    </style>
+    <title>
+        {% block titulo %}
+            Página de entrada
+        {% endblock %}
+    </title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'votacao/css/style.css' %}">
 </head>
 
 <body>
+
+<header>
+
+
+
+</header>
+
 <nav>
     {% if request.session.num_votos >= 0 %}
         <ul>
@@ -37,6 +31,9 @@
     {% endif %}
 </nav>
 
+<div class="container">
+
+
 
 {% if request.user.is_authenticated %}
     <h2>O user {{ request.user.username }} está logado</h2>
@@ -44,46 +41,57 @@
     <h2>Não está logado...</h2>
 {% endif %}
 
-<h1> Lista de perguntas</h1>
-{% if latest_question_list %}
-    <ul>
-        {% for questao in latest_question_list %}
-            <li>
-                <a href="{% url 'votacao:detalhe' questao.id %}">
-                    {{ questao.questao_texto }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Nao ha questoes disponiveis.</p>
-{% endif %}
-
-{% if request.user.is_superuser %}
-    <form>
-        <input type="submit" formaction="{% url 'votacao:criarquestao' %}" value="Criar Questão">
-    </form>
-{% endif %}
-
-{% if request.user.is_authenticated %}
-    <form>
-    <input type="submit" formaction="{% url 'votacao:fazlogout' %}" value="Logout">
-    </form>
-{% else %}
-    <form>
-        <input type="submit" formaction="{% url 'votacao:registar' %}" value="Registar"><br>
-        <input type="submit" formaction="{% url 'votacao:fazlogin' %}" value="Login"><br>
-    </form>
-{% endif %}
-
-{% if request.user.is_authenticated %}
-    <form>
-    {% if request.session.num_votos >= 0 %}
-        <input type="submit" formaction="{% url 'votacao:verperfil' %}" value="Ver Perfil"><br>
+{% block conteudoprincipal %}
+    <h1> Lista de perguntas</h1>
+    {% if latest_question_list %}
+        <ul>
+            {% for questao in latest_question_list %}
+                <li>
+                    <a href="{% url 'votacao:detalhe' questao.id %}">
+                        {{ questao.questao_texto }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nao ha questoes disponiveis.</p>
     {% endif %}
-    </form>
-{% endif %}
 
+
+
+    {% if request.user.is_superuser %}
+
+        <form>
+            <input type="submit" formaction="{% url 'votacao:criarquestao' %}" value="Criar Questão">
+        </form>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+        <form>
+        <input type="submit" formaction="{% url 'votacao:fazlogout' %}" value="Logout">
+        </form>
+    {% else %}
+        <form>
+            <input type="submit" formaction="{% url 'votacao:registar' %}" value="Registar"><br>
+            <input type="submit" formaction="{% url 'votacao:fazlogin' %}" value="Login"><br>
+        </form>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+        <form>
+        {% if request.session.num_votos >= 0 %}
+            <input type="submit" formaction="{% url 'votacao:verperfil' %}" value="Ver Perfil"><br>
+        {% endif %}
+        </form>
+    {% endif %}
+
+     <form>
+         <input type="submit" formaction="{% url 'votacao:fazerupload' %}" value="Upload test"><br>
+     </form>
+    </div>
+
+
+{% endblock %}
 
 </body>
 </html>

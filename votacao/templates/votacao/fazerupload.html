@@ -1,0 +1,20 @@
+{% extends './index.html' %}
+
+{%  block titulo %}
+    Fazer Upload
+{% endblock %}
+
+{% block conteudoprincipal %}
+
+    <form action="{% url 'votacao:fazerupload' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="myfile">
+        <input type="submit" value="Carregar ficheiro">
+
+    </form>
+
+    {% if uploaded_file_url %}
+        <p>Carregou a imagem para {{ uploaded_file_url }}</p>
+        <img src="{{ uploaded_file_url }}" width="50px" height="50px">
+    {% endif %}
+{% endblock %}
