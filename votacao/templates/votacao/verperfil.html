@@ -1,16 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Perfil do {{ request.user.username }}</title>
-    <style>
-        body {background-color: #f5f5f5; color: #333333; font-family: Arial, sans-serif; font-size: 16px;
-            margin: auto auto; padding: 20px; border: 1px solid #cccccc; box-shadow: 1px 1px 1px #cccccc}
-    </style>
-</head>
+{% extends './index.html' %}
+
+{% block titulo %}
+    Perfil do {{ request.user.username }}
+{% endblock %}
+
+
 <body>
-<p>Username: {{ request.user.username }}</p>
-<p>Email: {{ request.user.email }}</p>
-<p>Curso: {{ aluno.curso }}</p>
+{% block conteudoprincipal %}
+
+    <div id="showprofile">
+        {% if uploaded_file_url %}
+            <img class="profileimg" src="{{ uploaded_file_url }}" alt="Profile Image">
+        {% else %}
+            <img class="profileimg" src="../../static/media/default.png">
+        {% endif %}
+
+        <h1 id="username">{{ request.user.username }}</h1>
+        <p class="profileinfo">Email: {{ request.user.email }}</p>
+        <p class="profileinfo">Curso: {{ aluno.curso }}</p>
+        <p class="profileinfo">Número de votos: {{ aluno.num_votos }}</p>
+
+
+    </div>
+
+{% endblock %}
 </body>
 </html>

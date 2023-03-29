@@ -1,34 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Página de Registo</title>
-    <style>
-        body {font-family: sans-serif; font-size: 2em; text-align: center}
-    </style>
-</head>
-<body>
-<h1>Registar</h1>
-    <form action="{% url 'votacao:registar' %}" method="POST">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <br>
-        <input type="text" name="username" autofocus required>
-        <br>
-        <label for="email">Email:</label>
-        <br>
-        <input type="email" name="email">
-        <br>
-        <label for="password">Password:</label>
-        <br>
-        <input type="password" name="password" required>
-        <br>
-        <label for="curso">Curso</label>
-        <br>
-        <input type="text" name="curso" required>
-        <br>
-        <input type="submit" value="Registar">
-    </form>
+{% extends './index.html' %}
 
+{% block titulo %}
+    Página de registo
+{% endblock %}
+
+<body>
+{% block conteudoprincipal %}
+    <h1>Registar</h1>
+        <form action="{% url 'votacao:registar' %}" method="POST">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <br>
+            <input type="text" name="username" autofocus required>
+            <br>
+            <label for="email">Email:</label>
+            <br>
+            <input type="email" name="email">
+            <br>
+            <label for="password">Password:</label>
+            <br>
+            <input type="password" name="password" required>
+            <br>
+            <label for="curso">Curso</label>
+            <br>
+            <input type="text" name="curso" required>
+            <br>
+            <input type="submit" value="Registar">
+        </form>
+{% endblock %}
 </body>
 </html>

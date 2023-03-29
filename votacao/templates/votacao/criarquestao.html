@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Formulário para criar questão.</title>
-</head>
+{% extends './index.html' %}
+
+{% block titulo %}
+    Criar questão
+{% endblock %}
+
 <body>
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-{% endif %}
-<form method="POST" action="{% url 'votacao:inserirquestao' %}">
-    {% csrf_token %}
-    <label for="questaotexto">Nova Questao:</label>
-    <input type="text" id="questaotexto" name="questaotexto">
-    <button>Submeter</button>
-</form>
+{% block conteudoprincipal %}
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+    <form method="POST" action="{% url 'votacao:inserirquestao' %}">
+        {% csrf_token %}
+        <label for="questaotexto">Nova Questao:</label>
+        <input type="text" id="questaotexto" name="questaotexto">
+        <button>Submeter</button>
+    </form>
+{% endblock %}
 </body>
 </html>

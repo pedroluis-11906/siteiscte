@@ -15,74 +15,67 @@
 <body>
 
 <header>
-
-
-
+    <div class="container">
+        <div id="sessioninfo">
+            {% if request.user.is_authenticated %}
+                <h2>O user {{ request.user.username }} está logado</h2>
+            {% else %}
+                <h2>Não está logado...</h2>
+            {% endif %}
+        </div>
+    </div>
+    <div id="banner"></div>
 </header>
 
-<nav>
-    {% if request.session.num_votos >= 0 %}
-        <ul>
-            <li class="navli"><p>Número total de votos: {{ request.session.num_votos }}</p></li>
-            <li class="navli"><a href="{% url 'votacao:verperfil' %}">{{ request.user.username }}</a></li>
-        </ul>
-    {% else %}
-        <p>{{ request.user.username }}</p>
-    {% endif %}
-</nav>
+<div class="container_background">
+    <div class="container">
+        <nav class="mainnav">
+             {% if request.user.is_authenticated %}
+                <ul>
+                    {% if request.session.num_votos >= 0 %}
+                        <li class="main_nav_li"><a href="{% url 'votacao:fazlogout' %}">Logout</a></li>
+                        <li class="main_nav_li"><a href="{% url 'votacao:verperfil' %}">Ver perfil</a></li>
+                        <li class="main_nav_li"><a href="{% url 'votacao:index' %}">Página inicial</a></li>
 
-<div class="container">
+                    {% else %}
+                        <li class="main_nav_li"><a href="{% url 'votacao:fazlogout' %}">Logout</a></li>
+                        {% if request.user.is_superuser %}
+                            <li class="main_nav_li"><a href="{% url 'votacao:criarquestao' %}">Criar Questão</a></li>
+                        {% endif %}
+                        <li class="main_nav_li"><a href="{% url 'votacao:index' %}">Página inicial</a></li>
+
+                    {% endif %}
+                </ul>
+             {% else %}
+                 <ul>
+                    <li class="main_nav_li"><a href="{% url 'votacao:registar' %}">Registar</a></li>
+                    <li class="main_nav_li" style="color: white">|</li>
+                    <li class="main_nav_li"><a href="{% url 'votacao:fazlogin' %}">Login</a></li>
+                    <li class="main_nav_li"><a href="{% url 'votacao:index' %}">Página inicial</a></li>
+                 </ul>
+             {% endif %}
+        </nav>
+    </div>
+</div>
 
 
-
-{% if request.user.is_authenticated %}
-    <h2>O user {{ request.user.username }} está logado</h2>
-{% else %}
-    <h2>Não está logado...</h2>
-{% endif %}
 
 {% block conteudoprincipal %}
-    <h1> Lista de perguntas</h1>
+    <div class="container">
+    <h1 id="questionlisttitle">Lista de perguntas</h1>
     {% if latest_question_list %}
-        <ul>
-            {% for questao in latest_question_list %}
-                <li>
-                    <a href="{% url 'votacao:detalhe' questao.id %}">
-                        {{ questao.questao_texto }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+        {% for questao in latest_question_list %}
+            <div onclick='location.href="{% url 'votacao:detalhe' questao.id %}"' class="box">
+                {{ questao.questao_texto }}
+            </div>
+
+        {% endfor %}
+
     {% else %}
-        <p>Nao ha questoes disponiveis.</p>
-    {% endif %}
+        <div class="container">
+            <p>Não há questoes disponíveis.</p>
+        </div>
 
-
-
-    {% if request.user.is_superuser %}
-
-        <form>
-            <input type="submit" formaction="{% url 'votacao:criarquestao' %}" value="Criar Questão">
-        </form>
-    {% endif %}
-
-    {% if request.user.is_authenticated %}
-        <form>
-        <input type="submit" formaction="{% url 'votacao:fazlogout' %}" value="Logout">
-        </form>
-    {% else %}
-        <form>
-            <input type="submit" formaction="{% url 'votacao:registar' %}" value="Registar"><br>
-            <input type="submit" formaction="{% url 'votacao:fazlogin' %}" value="Login"><br>
-        </form>
-    {% endif %}
-
-    {% if request.user.is_authenticated %}
-        <form>
-        {% if request.session.num_votos >= 0 %}
-            <input type="submit" formaction="{% url 'votacao:verperfil' %}" value="Ver Perfil"><br>
-        {% endif %}
-        </form>
     {% endif %}
 
      <form>

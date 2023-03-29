@@ -1,22 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends './index.html' %}
+
+{% block titulo %}
+    Criar opção
+{% endblock %}
 
 <body>
-<h1>Criar Opção para a Questão "{{ questao.questao_texto }}"</h1>
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-{% endif %}
 
-<form method="POST" action="{% url 'votacao:inseriropcao' questao.id %}" >
-    {% csrf_token %}
-    <label for="opcaotexto">Nova Opção:</label>
-    <input type="text" id="opcaotexto" name="opcaotexto">
-    <button>Submeter</button>
-</form>
+{% block conteudoprincipal %}
+
+    <h1>Criar Opção para a Questão "{{ questao.questao_texto }}"</h1>
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+
+    <form method="POST" action="{% url 'votacao:inseriropcao' questao.id %}" >
+        {% csrf_token %}
+        <label for="opcaotexto">Nova Opção:</label>
+        <input type="text" id="opcaotexto" name="opcaotexto">
+        <button>Submeter</button>
+    </form>
+    
+{% endblock %}
 
 </body>
 </html>

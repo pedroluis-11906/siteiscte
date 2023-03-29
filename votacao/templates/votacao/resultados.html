@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Resultados da questão nº {{ questao.id }}</title>
-</head>
+{% extends './index.html' %}
+
+{% block titulo %}
+    Resultados da questão nº {{ questao.id }}
+{% endblock %}
+
 <body>
+{% block conteudoprincipal %}
 <h1>{{ questao.questao_texto }}</h1>
 <ul>
     {% for opcao in questao.opcao_set.all %}
@@ -13,5 +14,6 @@
     {% endfor %}
 </ul>
 <a href="{% url 'votacao:detalhe' questao.id %}">Votar novamente?</a>
+{% endblock %}
 </body>
 </html>
