@@ -23,3 +23,5 @@ class Aluno(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     curso = models.CharField(max_length=50)
     num_votos = models.IntegerField(default=0)
+
+

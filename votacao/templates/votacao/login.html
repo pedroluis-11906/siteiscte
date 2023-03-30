@@ -7,20 +7,25 @@
 
 <body>
 {% block conteudoprincipal %}
-    {% if msg_erro %}
-        <h2>{{ msg_erro }}</h2>
-    {% endif %}
+    <div class="login-container">
+        {% if msg_erro %}
+            <h2>{{ msg_erro }}</h2>
+        {% endif %}
 
-    <h1>Login:</h1>
-    <form action="{% url 'votacao:fazlogin' %}" method="POST">
-        {% csrf_token %}
-        <p>Username:</p>
-        <input type="text" name="username" autofocus>
-        <p>Password:</p>
-        <input type="password" name="password">
-        <br>
-        <input type="submit" value="Entrar">
-    </form>
+        <h1 class="login-title">Login</h1>
+        <form action="{% url 'votacao:fazlogin' %}" method="POST">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <br>
+            <input class="login-input" type="text" name="username" autofocus required>
+            <br>
+            <label for="password">Password:</label>
+            <br>
+            <input class="login-input" type="password" name="password" required>
+            <br>
+            <input type="submit" value="Entrar">
+        </form>
+    </div>
 {% endblock %}
 </body>
 </html>

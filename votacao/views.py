@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Questao, Opcao, Aluno
 from django.urls import reverse
 
+import os
+
 
 def index(request):
     if 'error_message' in request.session:
@@ -18,9 +20,17 @@ def index(request):
         try:
             aluno = Aluno.objects.get(user=request.user)
             request.session['num_votos'] = aluno.num_votos
-            print(request.session['num_votos'])
+
         except (KeyError, Aluno.DoesNotExist):
             pass
+
+        pic_list = os.listdir('votacao/static/media/')
+        fs = FileSystemStorage()
+        for filename in pic_list:
+            if filename.startswith(request.user.username + '_'):
+                profile_pic_url = fs.url(filename)
+                request.session['profile_pic_url'] = profile_pic_url
+                break
 
     latest_question_list = Questao.objects.order_by('-pub_data')[:5]
     context = {'latest_question_list': latest_question_list}
@@ -56,7 +66,7 @@ def voto(request, questao_id):
                 aluno.save()
             else:
                 request.session['error_message'] = 'O Aluno atingiu o número de votos permitido'
-                return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao_id, )))
+                return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao_id,)))
         except (KeyError, Aluno.DoesNotExist):
             pass
 
@@ -164,8 +174,14 @@ def fazerupload(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'votacao/fazerupload.html', {'uploaded_file_url': uploaded_file_url})
-    return render(request, 'votacao/fazerupload.html')
+        pic_list = os.listdir('votacao/static/media/')
+        for fn in pic_list:
+            if fn.startswith(request.user.username + '_'):
+                os.remove('votacao/static/media/' + fn)
+                break
 
+        filename = fs.save(request.user.username + '_' + myfile.name, myfile)
+        profile_pic_url = fs.url(filename)
+        request.session['profile_pic_url'] = profile_pic_url
+        return render(request, 'votacao/fazerupload.html',)
+    return render(request, 'votacao/fazerupload.html')

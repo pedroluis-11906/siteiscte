@@ -9,8 +9,9 @@
 {% block conteudoprincipal %}
 
     <div id="showprofile">
-        {% if uploaded_file_url %}
-            <img class="profileimg" src="{{ uploaded_file_url }}" alt="Profile Image">
+
+        {% if request.session.profile_pic_url %}
+            <img class="profileimg" src="{{ request.session.profile_pic_url }}" alt="Profile Image">
         {% else %}
             <img class="profileimg" src="../../static/media/default.png">
         {% endif %}
@@ -19,6 +20,7 @@
         <p class="profileinfo">Email: {{ request.user.email }}</p>
         <p class="profileinfo">Curso: {{ aluno.curso }}</p>
         <p class="profileinfo">Número de votos: {{ aluno.num_votos }}</p>
+
 
 
     </div>

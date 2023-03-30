@@ -6,27 +6,29 @@
 
 <body>
 {% block conteudoprincipal %}
-    <h1>Registar</h1>
-        <form action="{% url 'votacao:registar' %}" method="POST">
-            {% csrf_token %}
-            <label for="username">Username:</label>
-            <br>
-            <input type="text" name="username" autofocus required>
-            <br>
-            <label for="email">Email:</label>
-            <br>
-            <input type="email" name="email">
-            <br>
-            <label for="password">Password:</label>
-            <br>
-            <input type="password" name="password" required>
-            <br>
-            <label for="curso">Curso</label>
-            <br>
-            <input type="text" name="curso" required>
-            <br>
-            <input type="submit" value="Registar">
-        </form>
+    <div class="login-container">
+        <h1 class="login-title">Registar</h1>
+            <form action="{% url 'votacao:registar' %}" method="POST">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <br>
+                <input class="login-input" type="text" name="username" autofocus required>
+                <br>
+                <label for="email">Email:</label>
+                <br>
+                <input class="login-input" type="email" name="email">
+                <br>
+                <label for="password">Password:</label>
+                <br>
+                <input class="login-input" type="password" name="password" required>
+                <br>
+                <label for="curso">Curso</label>
+                <br>
+                <input class="login-input" type="text" name="curso" required>
+                <br>
+                <input type="submit" value="Registar">
+            </form>
+    </div>
 {% endblock %}
 </body>
 </html>

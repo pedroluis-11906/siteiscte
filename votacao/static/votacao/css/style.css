@@ -1,12 +1,19 @@
 *{box-sizing: border-box;}
 
-body{font-family: sans-serif; font-size: 2em; margin: 0; background-image: url("../images/grey.jpg");
-    background-size: 100% 100%; background-size: cover}
+body{
+    font-family: sans-serif;
+    font-size: 2em;
+    margin: 0;
+    background-image: url("../images/grey.jpg");
+    background-size: 100% 100%;
+    background-size: cover
+}
 
 .container{
     width: 90%;
     margin: 0 auto;
     overflow: auto;
+    position: relative;
 }
 
 .container_background{
@@ -14,32 +21,79 @@ body{font-family: sans-serif; font-size: 2em; margin: 0; background-image: url("
 }
 
 
-input[type=submit]{ background: linear-gradient(to bottom right, #058ce0, #0119ea); color: white;
-                            padding: 10px 20px;
-                            border: none;
-                            border-radius: 5px;
-                            font-size: 16px;
-                            cursor: pointer;}
+input[type=submit]{
+    background: linear-gradient(to bottom right, #383838, rgba(20, 20, 20, 0.54));
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
 
-#banner {background-image: url("../images/iscte.jpg"); background-size: 100% 100%; height: 200px;
+#banner {
+    background-image: url("../images/iscte.jpg");
+    background-size: 100% 100%;
+    height: 200px;
+    width: 100%;
 }
 
 
-header {background-color: #333; padding: 0px;
-        font-weight: bold;}
+header {
+    background-color: #333;
+    padding: 0px;
+    font-weight: bold;
+}
 
-#sessioninfo{float: left;background-color: #333; color: white; overflow: auto; padding: 0px; font-size: 10px}
+#sessioninfo{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    float: left;
+    background-color: #333;
+    color: white; overflow: auto;
+    font-size: 10px
+}
 
-.mainnav {background-color: #333; overflow: auto; font-size: 20px;}
+#header_profileimage {
+    padding-top: 10px;
+    float: right;
 
-ul {list-style-type: none; margin: 0; padding: 0}
-.main_nav_li {float: right}
-.main_nav_li a, .main_nav_li p {display: block; color: white; text-align: center;
-                    padding: 0px 16px; text-decoration: none;}
-.main_nav_li p {margin: 0}
-.main_nav_li a:hover {background-color: #111}
+}
 
-#questionlisttitle {text-align: center}
+.mainnav {
+    background-color: #333;
+    overflow: auto;
+    font-size: 20px;
+}
+
+ul {list-style-type: none;
+    margin: 0;
+    padding: 0
+}
+
+.main_nav_li {
+    float: right
+}
+.main_nav_li a, .main_nav_li p {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+}
+
+.main_nav_li p {
+    margin: 0
+}
+.main_nav_li a:hover {
+    background-color: #111
+}
+
+#questionlisttitle {
+    text-align: center
+}
 
 .box {
     text-align: center;
@@ -53,18 +107,68 @@ ul {list-style-type: none; margin: 0; padding: 0}
     margin-inline: auto;
 }
 
-.box:hover {background-color: rgba(20,20,20,0.54); cursor: pointer}
+.box:hover {
+    background-color: rgba(20,20,20,0.54);
+    cursor: pointer
+}
 
-#showprofile {border: 2px solid #ccc; background-color: #f2f2f2; padding: 20px; border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 50%; text-align: center;
+#showprofile {
+    border: 2px solid #ccc;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 50%;
+    text-align: center;
     margin: 50px auto 0;
 }
 
-.profileimg {width: 150px; height: 150px; border-radius: 50%;
-            object-fit: cover; object-position: center; margin-bottom: 20px;
-      }
 
-#username {font-size: 24px; font-weight: bold; margin-bottom: 10px;}
+.profileimg {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
 
-.profileinfo {font-size: 18px; color: #666; margin-bottom: 20px;}
+#username {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.profileinfo {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.login-container {
+    border: 2px solid #ccc;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    width: 50%;
+    text-align: center;
+}
+
+.login-input {
+    display: block;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e6e6e6;
+    margin-bottom: 20px;
+    width: 100%;
+    font-size: 16px;
+}
+
+
+.login-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
