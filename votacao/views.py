@@ -4,12 +4,16 @@ from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.utils import timezone
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .models import Questao, Opcao, Aluno
 from django.urls import reverse
 
 import os
+
+
+def test_superuser(user):
+    return user.is_superuser
 
 
 def index(request):
@@ -38,16 +42,19 @@ def index(request):
     return render(request, 'votacao/index.html', context)
 
 
+@login_required(login_url='/votacao/fazlogin')
 def detalhe(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     return render(request, 'votacao/detalhe.html', {'questao': questao, })
 
 
+@login_required(login_url='/votacao/fazlogin')
 def resultados(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     return render(request, 'votacao/resultados.html', {'questao': questao})
 
 
+@login_required(login_url='/votacao/fazlogin')
 def voto(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     try:
@@ -76,10 +83,12 @@ def voto(request, questao_id):
     return HttpResponseRedirect(reverse('votacao:resultados', args=(questao_id,)))
 
 
+@user_passes_test(test_superuser, login_url='/votacao/')
 def criarquestao(request):
     return render(request, 'votacao/criarquestao.html')
 
 
+@user_passes_test(test_superuser, login_url='/votacao/')
 def inserirquestao(request):
     questao_texto = request.POST['questaotexto']
     print(questao_texto)
@@ -88,17 +97,18 @@ def inserirquestao(request):
         questao.save()
         return HttpResponseRedirect(reverse('votacao:index'))
     else:
-        return render(request, 'votacao/criarquestao.html', {'error_message': "Introduza o texto da questao!"})
+        return render(request, 'votacao/criarquestao.html', {'error_message': "Introduza o texto da questão!"})
 
 
+@user_passes_test(test_superuser, login_url='/votacao/')
 def criaropcao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     return render(request, 'votacao/criaropcao.html', {'questao': questao})
 
 
+@user_passes_test(test_superuser, login_url='/votacao/')
 def inseriropcao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
-    # usar questao.opcao_set.create()
     opcaotexto = request.POST['opcaotexto']
     if opcaotexto:
         questao.opcao_set.create(questao=questao, opcao_texto=opcaotexto)
@@ -126,6 +136,7 @@ def fazlogin(request):
         return render(request, 'votacao/login.html')
 
 
+@login_required(login_url='/votacao/fazlogin')
 def fazlogout(request):
     logout(request)
     return HttpResponseRedirect(reverse('votacao:index'))
@@ -144,18 +155,19 @@ def registar(request):
     return render(request, 'votacao/registar.html')
 
 
-@login_required
+@login_required(login_url='/votacao/fazlogin')
 def verperfil(request):
-    aluno = Aluno.objects.get(user=request.user)
-    return render(request, 'votacao/verperfil.html', {'aluno': aluno})
+    return render(request, 'votacao/verperfil.html',)
 
 
+@user_passes_test(test_superuser, login_url='/votacao/')
 def apagarquestao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     questao.delete()
     return HttpResponseRedirect(reverse('votacao:index'))
 
 
+@user_passes_test(test_superuser, login_url='/votacao/')
 def apagaropcao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     try:
@@ -170,8 +182,9 @@ def apagaropcao(request, questao_id):
         return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao_id,)))
 
 
-def fazerupload(request):
-    if request.method == 'POST' and request.FILES['myfile']:
+@login_required(login_url='/votacao/fazlogin')
+def upload_profimg(request):
+    if request.method == 'POST' and 'myfile' in request.FILES:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
         pic_list = os.listdir('votacao/static/media/')
@@ -183,5 +196,5 @@ def fazerupload(request):
         filename = fs.save(request.user.username + '_' + myfile.name, myfile)
         profile_pic_url = fs.url(filename)
         request.session['profile_pic_url'] = profile_pic_url
-        return render(request, 'votacao/fazerupload.html',)
-    return render(request, 'votacao/fazerupload.html')
+        return HttpResponseRedirect(reverse('votacao:verperfil'))
+    return HttpResponseRedirect(reverse('votacao:verperfil'))

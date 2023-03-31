@@ -21,7 +21,7 @@ body{
 }
 
 
-input[type=submit]{
+.submit{
     background: linear-gradient(to bottom right, #383838, rgba(20, 20, 20, 0.54));
     color: white;
     padding: 10px 20px;
@@ -125,21 +125,21 @@ ul {list-style-type: none;
 
 
 .profileimg {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
 }
 
 #username {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
 .profileinfo {
-    font-size: 18px;
+    font-size: 25px;
     color: #666;
     margin-bottom: 20px;
 }
@@ -172,3 +172,61 @@ ul {list-style-type: none;
     font-weight: bold;
     margin-bottom: 20px;
 }
+
+.upload-container {
+        border: 2px solid #ccc;
+        background-color: #f2f2f2;
+        padding: 20px 0 0 0;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin: 0 auto;
+        width: 75%;
+        text-align: center;
+
+}
+
+.upload-input {
+    display: inline-block;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e6e6e6;
+    margin-bottom: 20px;
+    width: 50%;
+    font-size: 16px;
+    position: relative;
+}
+
+.upload-submit {
+    background-color: #383838;
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0;
+    width: 30%;
+}
+
+.radio-container {
+        justify-content: center;
+        align-items: center;
+}
+
+.radio-container input{
+    border: 1px solid #000000;
+    padding: 0.5em;
+    -webkit-appearance: none;
+    border-radius: 0.40em;
+}
+
+.radio-container input:checked{
+    background: #000000 linear-gradient(to bottom right, #000000, #666666) no-repeat;
+
+}
+
+

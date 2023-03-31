@@ -15,11 +15,25 @@
         {% else %}
             <img class="profileimg" src="../../static/media/default.png">
         {% endif %}
-
+        <div class="upload-container">
+            <form action="{% url 'votacao:upload_profimg' %}"  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" class="upload-input" accept="image/*" name="myfile">
+                <input type="submit" class="upload-submit" value="Upload">
+            </form>
+        </div>
+        
         <h1 id="username">{{ request.user.username }}</h1>
         <p class="profileinfo">Email: {{ request.user.email }}</p>
-        <p class="profileinfo">Curso: {{ aluno.curso }}</p>
-        <p class="profileinfo">Número de votos: {{ aluno.num_votos }}</p>
+        {% if not request.user.is_superuser %}
+            <p class="profileinfo">Curso: {{ request.user.aluno.curso }}</p>
+            <p class="profileinfo">Número de votos: {{ request.user.aluno.num_votos }}</p>
+        {% else %}
+            <p class="profileinfo">Perfil de Superuser</p>
+        {% endif %}
+
+
+
 
 
 

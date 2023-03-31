@@ -6,15 +6,19 @@
 
 <body>
 {% block conteudoprincipal %}
-    {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
-    {% endif %}
-    <form method="POST" action="{% url 'votacao:inserirquestao' %}">
-        {% csrf_token %}
-        <label for="questaotexto">Nova Questao:</label>
-        <input type="text" id="questaotexto" name="questaotexto">
-        <button>Submeter</button>
-    </form>
+    <div class="login-container">
+        <h1 class="login-title"><label for="questaotexto">Nova Questão:</label></h1>
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+        <form method="POST" action="{% url 'votacao:inserirquestao' %}">
+            {% csrf_token %}
+            <input class="login-input" type="text" name="questaotexto"
+                   placeholder="Introduza o texto da nova questão">
+            <br>
+            <input class="submit" type="submit" value="Submeter">
+        </form>
+    </div>
 {% endblock %}
 </body>
 </html>

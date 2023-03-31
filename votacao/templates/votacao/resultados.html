@@ -6,14 +6,21 @@
 
 <body>
 {% block conteudoprincipal %}
-<h1>{{ questao.questao_texto }}</h1>
-<ul>
-    {% for opcao in questao.opcao_set.all %}
-        <li>{{ opcao.opcao_texto }} -- {{ opcao.votos }}
-            voto{{ opcao.votos|pluralize }}</li>
-    {% endfor %}
-</ul>
-<a href="{% url 'votacao:detalhe' questao.id %}">Votar novamente?</a>
+
+    <div class="login-container">
+        <h1>Questão: {{ questao.questao_texto }}</h1>
+        <ul>
+            {% for opcao in questao.opcao_set.all %}
+                <li>{{ opcao.opcao_texto }} -- {{ opcao.votos }}
+                    voto{{ opcao.votos|pluralize }}</li>
+            {% endfor %}
+        </ul>
+        <br>
+        <form>
+            <input class="submit" type="submit" formaction="{% url 'votacao:detalhe' questao.id %}"
+                   value="Votar Novamente">
+        </form>
+        </div>
 {% endblock %}
 </body>
 </html>

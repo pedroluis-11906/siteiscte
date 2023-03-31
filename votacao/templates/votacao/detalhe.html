@@ -8,62 +8,64 @@
 <body>
 
 {% block conteudoprincipal %}
-    <h1>{{ questao.questao_texto }}</h1>
-    {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
-    {% endif %}
+    <div class="login-container">
+        <h1>Questão: {{ questao.questao_texto }}</h1>
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
 
-    {% if request.session.error_message %}
-        <strong>{{ request.session.error_message }}</strong>
-    {% endif %}
+        {% if request.session.error_message %}
+            <strong>{{ request.session.error_message }}</strong>
+        {% endif %}
 
-    {% if request.user.is_superuser %}
-        <form action="{% url 'votacao:apagarquestao' questao.id %}">
-             <input type="submit" formaction="{% url 'votacao:apagarquestao' questao.id %}" value="Apagar Questão">
-        </form>
-    {% endif %}
-
-    <br>
-
-    {% if questao.opcao_set %}
-        <form action="{% url 'votacao:voto' questao.id %}"
-              method="post">
-            {% csrf_token %}
-            {% for opcao in questao.opcao_set.all %}
-                <input type="radio" name="opcao"
-                       id="opcao{{ forloop.counter }}"
-                       value="{{ opcao.id }}" />
-                <label for="opcao{{ forloop.counter }}">
-                    {{ opcao.opcao_texto }}
-                </label>
-                <br>
-            {% endfor %}
-
-            {% if request.user.is_authenticated %}
-                <input type="submit" value="Voto" />
-            {% endif %}
-
-            {% if request.user.is_superuser %}
-                <br>
-                <br>
-                <input type="submit" formaction="{% url 'votacao:criaropcao' questao.id %}" value="Criar Opcao"></input>
-                <br>
-                <br>
-                <input type="submit" formaction="{% url 'votacao:apagaropcao' questao.id %}" value="Apagar Opcao">
-            {% endif %}
-        </form>
-    {% else %}
-        <p>Não há opções disponíveis para esta questão!</p>
         {% if request.user.is_superuser %}
-            <form>
-                <input type="submit" formaction="{% url 'votacao:criaropcao' questao.id %}" value="Criar Opcao"></input>
-                <br>
+            <form action="{% url 'votacao:apagarquestao' questao.id %}">
+                 <input class="submit" type="submit" formaction="{% url 'votacao:apagarquestao' questao.id %}" value="Apagar Questão">
             </form>
         {% endif %}
-    {% endif %}
-    <br>
 
-    <br>
+        <br>
+
+        {% if questao.opcao_set %}
+            <form action="{% url 'votacao:voto' questao.id %}"
+                  method="post">
+                {% csrf_token %}
+                <div class="radio-container">
+                    {% for opcao in questao.opcao_set.all %}
+                        <input type="radio" name="opcao"
+                               id="opcao{{ forloop.counter }}"
+                               value="{{ opcao.id }}" />
+                        <label for="opcao{{ forloop.counter }}">
+                            {{ opcao.opcao_texto }}
+                        </label>
+                        <br>
+                    {% endfor %}
+                </div>
+
+                {% if request.user.is_authenticated %}
+                    <input class="submit" type="submit" value="Voto" />
+                {% endif %}
+
+                {% if request.user.is_superuser %}
+                    <br>
+                    <br>
+                    <input class="submit" type="submit" formaction="{% url 'votacao:criaropcao' questao.id %}" value="Criar Opcao"></input>
+                    <br>
+                    <br>
+                    <input class="submit" type="submit" formaction="{% url 'votacao:apagaropcao' questao.id %}" value="Apagar Opcao">
+                {% endif %}
+            </form>
+        {% else %}
+            <p>Não há opções disponíveis para esta questão!</p>
+            {% if request.user.is_superuser %}
+                <form>
+                    <input type="submit" formaction="{% url 'votacao:criaropcao' questao.id %}" value="Criar Opcao"></input>
+                    <br>
+                </form>
+            {% endif %}
+        {% endif %}
+        <br>
+    </div>
 {% endblock %}
 
 </body>

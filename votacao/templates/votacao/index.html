@@ -9,7 +9,7 @@
         {% endblock %}
     </title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'votacao/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'votacao/css/style.css' %}"?{% now "U" %}>
 </head>
 
 <body>
@@ -44,7 +44,7 @@
         <nav class="mainnav">
              {% if request.user.is_authenticated %}
                 <ul>
-                    {% if request.session.num_votos >= 0 %}
+                    {% if request.user.aluno %}
                         <li class="main_nav_li"><a href="{% url 'votacao:fazlogout' %}">Logout</a></li>
                         <li class="main_nav_li"><a href="{% url 'votacao:verperfil' %}">Ver perfil</a></li>
                         <li class="main_nav_li"><a href="{% url 'votacao:index' %}">Página inicial</a></li>
@@ -52,6 +52,7 @@
                     {% else %}
                         <li class="main_nav_li"><a href="{% url 'votacao:fazlogout' %}">Logout</a></li>
                         {% if request.user.is_superuser %}
+                            <li class="main_nav_li"><a href="{% url 'votacao:verperfil' %}">Ver perfil</a></li>
                             <li class="main_nav_li"><a href="{% url 'votacao:criarquestao' %}">Criar Questão</a></li>
                         {% endif %}
                         <li class="main_nav_li"><a href="{% url 'votacao:index' %}">Página inicial</a></li>
@@ -90,9 +91,6 @@
 
     {% endif %}
 
-     <form>
-         <input type="submit" formaction="{% url 'votacao:fazerupload' %}" value="Upload test"><br>
-     </form>
     </div>
 
 

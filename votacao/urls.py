@@ -35,5 +35,6 @@ urlpatterns = [
     # ex votacao/6/apagaropcao
     path('<int:questao_id>/apagaropcao', views.apagaropcao, name='apagaropcao'),
 
-    path('fazerupload', views.fazerupload, name='fazerupload')
+    # ex votacao/verperfil/upload_profimg
+    path('verperfil/upload_profimg', views.upload_profimg, name='upload_profimg')
 ]

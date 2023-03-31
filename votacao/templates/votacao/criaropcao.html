@@ -8,17 +8,21 @@
 
 {% block conteudoprincipal %}
 
-    <h1>Criar Opção para a Questão "{{ questao.questao_texto }}"</h1>
-    {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
-    {% endif %}
 
-    <form method="POST" action="{% url 'votacao:inseriropcao' questao.id %}" >
-        {% csrf_token %}
-        <label for="opcaotexto">Nova Opção:</label>
-        <input type="text" id="opcaotexto" name="opcaotexto">
-        <button>Submeter</button>
-    </form>
+    <div class="login-container">
+    <h1 class="login-title"><label for="opcaotexto"> Criar Opção para a Questão "{{ questao.questao_texto }}"</label></h1>
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <form method="POST" action="{% url 'votacao:inseriropcao' questao.id %}" >
+            {% csrf_token %}
+            <input class="login-input" type="text" name="opcaotexto"
+                   placeholder="Introduza o texto da nova opção">
+            <br>
+            <input class="submit" type="submit" value="Submeter">
+        </form>
+    </div>
     
 {% endblock %}
 
