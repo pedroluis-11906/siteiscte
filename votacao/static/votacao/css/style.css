@@ -154,6 +154,10 @@ ul {list-style-type: none;
     margin-bottom: 20px;
 }
 
+#user-info {
+    display: none;
+}
+
 .login-container {
     border: 2px solid #ccc;
     background-color: #f2f2f2;
@@ -226,6 +230,11 @@ ul {list-style-type: none;
     font-size: 10px;
     margin-bottom: 30px;
 }
+
+#comment-result {
+    display: none;
+}
+
 
 .radio-container {
         justify-content: center;
