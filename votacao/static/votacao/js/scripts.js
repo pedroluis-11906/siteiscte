@@ -22,6 +22,23 @@ $(document).ready(
             )
 })
 
+$(document).ready(function() {
+  $('input[type="radio"]').click(function() {
+      $('div[id^="num-votos"]').hide();
+      // Obter o ID do botão selecionado
+      let btn_id = $(this).attr('id');
+      // Extrair o número do ID (usando uma expressão regular)
+      let num = parseInt(btn_id.replace(/\D/g,''));
+      let div_id = 'num-votos' + num;
+
+      if ($(this).is(':checked')) {
+        $('#' + div_id).show();
+      } else {
+        $('#' + div_id).hide();
+      }
+  });
+});
+
 
 
 function esconder_mostrar(){

@@ -39,8 +39,10 @@
                             {{ opcao.opcao_texto }}
                         </label>
                         <br>
-                        <div class="login-input" id="num-votos">
-                            {{ opcao.num_votos }}
+                        <div id="num-votos{{ forloop.counter }}" style="display: none">
+                            <div class="login-input">
+                                Total de votos desta opção: {{ opcao.votos }}
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
